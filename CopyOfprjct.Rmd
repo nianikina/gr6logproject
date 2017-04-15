@@ -1,0 +1,7 @@
+```{r}
+library(dplyr)
+dan5 <- read.csv("~/gr6logproject/dan5.csv", sep=",")
+dannie <- mutate(dan5, E = q1+q2+q3+q4+q5+q6+q7+q8+q9+q10)
+dn <- t(dannie)
+
+```
