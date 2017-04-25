@@ -47,6 +47,7 @@ q3$Cu <- 1
 
 ```{r}
 total <- rbind (q1, q2, q3)
+total <- total[,-c(1,2,3)]
 totalsum <- colSums(total)
-total <- rbind (q1, q2, q3, totalsum)
+total <- rbind (total, totalsum)
 ```
