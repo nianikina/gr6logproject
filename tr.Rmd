@@ -1,0 +1,52 @@
+```{r}
+library(dplyr)
+dan5 <- read.csv("~/train/tr.csv", sep=",")
+```
+1)если да
+```{r}
+q1 <- dan5 [-c(2:3),]
+q1$Au <- if (q1$A == 1) {q1$Au=1} else {q1$Au=0}
+q1$Bu <- if (q1$B == 1) {q1$Bu=1} else {q1$Bu=0}
+q1$Cu <- if (q1$C == 1) {q1$Cu=1} else {q1$Cu=0}
+```
+если нет
+```{r}
+q1$Au <- 1
+q1$Bu <- 1
+q1$Cu <- 1
+```
+
+2)если да
+```{r}
+q2 <- dan5 [-c(1,3),]
+q2$Au <- if (q2$A == 1) {q2$Au=1} else {q2$Au=0}
+q2$Bu <- if (q2$B == 1) {q2$Bu=1} else {q2$Bu=0}
+q2$Cu <- if (q2$C == 1) {q2$Cu=1} else {q2$Cu=0}
+```
+если нет
+```{r}
+q2$Au <- 1
+q2$Bu <- 1
+q2$Cu <- 1
+```
+
+3)если да
+```{r}
+q3 <- dan5 [-c(1,2),]
+q3$Au <- if (q3$A == 1) {q3$Au=1} else {q3$Au=0}
+q3$Bu <- if (q3$B == 1) {q3$Bu=1} else {q3$Bu=0}
+q3$Cu <- if (q3$C == 1) {q3$Cu=1} else {q3$Cu=0}
+```
+если нет
+```{r}
+q3$Au <- 1
+q3$Bu <- 1
+q3$Cu <- 1
+```
+в одну таблицу
+
+```{r}
+total <- rbind (q1, q2, q3)
+totalsum <- colSums(total)
+total <- rbind (q1, q2, q3, totalsum)
+```
