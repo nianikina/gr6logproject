@@ -1,0 +1,11 @@
+```{r}
+library(dplyr)
+dan5 <- read.csv("~/train/tr.csv", sep=",")
+```
+если да
+```{r}
+q1 <- dan5 [-c(2:4),]
+q1$Au <- if (q1$A == 1) {q1$Au=1} else {q1$Au=0}
+q1$Bu <- if (q1$B == 1) {q1$Bu=1} else {q1$Bu=0}
+q1$Cu <- if (q1$C == 1) {q1$Cu=1} else {q1$Cu=0}
+```
