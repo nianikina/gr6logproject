@@ -1,0 +1,92 @@
+Comp <- read.csv("datatotal.csv")
+List <- read.csv("questions.csv")
+
+function(input, output) {
+  results <<- rep("", nrow(List))
+  names(results) <<- List[,1]
+  output$counter <- 
+    renderText({
+      if (!file.exists("counter.Rdata")) counter <- 0
+      if (file.exists("counter.Rdata")) load(file="counter.Rdata")
+      counter <- counter <<- counter + 1
+      
+      save(counter, file="counter.Rdata") 
+      paste0("Hits: ", counter)
+    })
+  output$MainAction <- renderUI( {
+    dynamicUi()
+  })
+  dynamicUi <- reactive({
+    
+    if (input$Click.Counter==0) 
+      return(
+        list(
+          h3("Welcome to loginator!"),
+          h3("From logists with love")
+        )
+      )
+    if (input$Click.Counter>0 & input$Click.Counter<=nrow(List)) 
+      return(
+        list(
+          h3(textOutput("question")),
+          radioButtons("survey", "Please select:",
+                       option.list()))
+      )
+    
+    if (input$Click.Counter>nrow(List))
+      return(
+        list(
+          h4("View results"),
+          tableOutput("surveyresults"),
+          h2("Thanks you for your answers! In hope, our service was helpful for you! ;)")
+        )
+      ) 
+  })
+  output$save.results <- renderText({
+    
+    if ((input$Click.Counter>0)&(input$Click.Counter>!nrow(List)))
+      try(results[input$Click.Counter] <<- input$survey)
+    
+    if (input$Click.Counter==nrow(List)+1) {
+      if (file.exists("survey.results.Rdata")) 
+        load(file="survey.results.Rdata")
+      if (!file.exists("survey.results.Rdata")) 
+        presults<-NULL
+      presults <- presults <<- rbind(presults, results)
+      rownames(presults) <- rownames(presults) <<- 
+        paste("User", 1:nrow(presults))
+      save(presults, file="survey.results.Rdata")
+    }
+    
+  })
+  
+  
+  output$surveyresults <- renderTable({
+    t(summary(presults))
+  })
+  
+  
+  output$downloadData <- downloadHandler(
+    filename = "IndividualData.csv",
+    content = function(file) {
+      write.csv(presults, file)
+    }
+  )
+  
+  option.list <- reactive({
+    qlist <- List[input$Click.Counter,3:ncol(List)]
+    as.matrix(qlist[qlist!=""])
+  })
+  
+  
+  output$question <- renderText({
+    paste0(
+      "Q", input$Click.Counter,":", 
+      List[input$Click.Counter,1]
+    )
+  })
+  
+  output$image2 <- renderImage({ 
+    return(list(src = "logo.png", contentType = "image/png", align = "center")) 
+  }, deleteFile = FALSE)
+}
