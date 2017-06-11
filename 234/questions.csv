@@ -1,0 +1,11 @@
+Quest,Qn,a1,a2
+Is your transportation urgent?,1,yes,no
+Is your transportation intercity?,2,yes,no
+Do you need movers?,3,yes,no
+Can you take the cargo yourself?,4,yes,no
+Is total weight of cargo more than 1.5 tons?,5,yes,no
+Is your cargo fragile?,6,yes,no
+Is your cargo bulky?,7,yes,no
+Does your move connect with relocation?,8,yes,no
+Does your cargo need special package?,9,yes,no
+Does your cargo need temperature regim?,10,yes,no
